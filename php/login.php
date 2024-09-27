@@ -28,13 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Redirect based on the user's role
         if ($user['role'] == 'donor') {
-            header('Location: donor_dashboard.html');
+            header('Location: ../donor_dashboard.html');
         } elseif ($user['role'] == 'recipient') {
-            header('Location: recipient_dashboard.html');
+            header('Location: ../recipient_dashboard.html');
         } elseif ($user['role'] == 'admin') {
-            header('Location: admin_dashboard.html');
+            header('Location: ../admin_dashboard.html');
         } elseif ($user['role'] == 'delivery') {
-            header('Location: deliveryMan_dashboard.html');
+            header('Location: ../deliveryMan_dashboard.html');
         }
         exit();
     } else {
