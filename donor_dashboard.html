@@ -27,7 +27,7 @@
         <p>This is the DashBoard.</p>
     </main>
     <script>
-        document.getElementById('userName').textContent = '<?php echo $_SESSION["username"]; ?>'; // Use PHP session to get username
+        document.getElementById('userName').textContent = '<?php echo htmlspecialchars($_SESSION["username"]); ?>';
     </script>
 </body>
 </html>
