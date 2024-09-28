@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Redirect based on the user's role
         if ($user['role'] == 'donor') {
-            header('Location: ../donor_dashboard.html');
+            header('Location: donor_dashboard.php');
         } elseif ($user['role'] == 'recipient') {
             header('Location: ../recipient_dashboard.html');
         } elseif ($user['role'] == 'admin') {
