@@ -107,7 +107,7 @@ $result = $stmt->get_result();
     <div class="donation-container">
         <?php while ($row = $result->fetch_assoc()) { ?>
             <div class="donation-card">
-                <img src="uploads/<?php echo $row['image1']; ?>" alt="Donation Image">
+                <img src="<?php echo $row['image1']; ?>" alt="Donation Image">
                 <div class="donation-info">
                     <h3><?php echo htmlspecialchars($row['item_name']); ?></h3>
                     <p>Category: <?php echo htmlspecialchars($row['category']); ?></p>

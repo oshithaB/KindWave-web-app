@@ -25,7 +25,7 @@
             text-align: center;
         }
 
-        input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea {
+        input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea, select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -53,6 +53,24 @@
             color: #0B3D91;
             cursor: pointer;
         }
+
+        .upload-section {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .upload-section input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .upload-section label {
+            display: block;
+            margin-bottom: 5px;
+            color: #0B3D91;
+        }
     </style>
 </head>
 <body>
@@ -68,17 +86,36 @@
         </form>
 
         <!-- Registration Form -->
-        <form id="registerForm" method="POST" action="php/register.php" style="display: none;">
+        <form id="registerForm" method="POST" action="php/register.php" enctype="multipart/form-data" style="display: none;">
             <h2>Register</h2>
+
+            <!-- User Type Selection -->
+            <select id="userType" name="role" required>
+                <option value="donor">Donor</option>
+                <option value="recipient">Recipient</option>
+            </select>
+
+            <!-- Shared Fields -->
             <input type="text" name="regUsername" placeholder="Username" required>
             <input type="password" name="regPassword" placeholder="Password" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="tel" name="phone" placeholder="Phone" required>
             <textarea name="address" placeholder="Address" required></textarea>
-            <select name="role" required>
-                <option value="donor">Donor</option>
-                <option value="recipient">Recipient</option>
-            </select>
+
+            <!-- Donor-specific Fields -->
+            <div id="donorFields" class="upload-section">
+                <label for="profile_picture">Upload Profile Picture (Optional)</label>
+                <input type="file" name="profile_picture" accept="image/*">
+            </div>
+
+            <!-- Recipient-specific Fields -->
+            <div id="recipientFields" class="upload-section">
+                <label for="profile_picture">Upload Profile Picture (Optional)</label>
+                <input type="file" name="profile_picture" accept="image/*">
+                <label for="proof_document">Upload Proof Document (Required)</label>
+                <input type="file" name="proof_document" accept="application/pdf, image/*" required>
+            </div>
+
             <button type="submit">Register</button>
             <p>Already have an account? <span id="showLogin" class="toggle-text">Login</span></p>
         </form>

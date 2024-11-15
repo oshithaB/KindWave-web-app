@@ -12,9 +12,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'donor') {
 $donor_id = $_SESSION['user_id'];
 
 // Fetch requests related to the logged-in donor
-$sql = "SELECT r.request_id, r.donation_id, r.quantity, r.address, 
-               r.status, u.username AS recipient_username, 
-               d.item_name, u.rating AS recipient_rating 
+$sql = "SELECT r.request_id, r.donation_id, r.quantity, 
+               u.address AS recipient_address, u.username AS recipient_username, 
+               r.status, d.item_name, u.rating AS recipient_rating 
         FROM requests r 
         JOIN donations d ON r.donation_id = d.donation_id 
         JOIN users u ON r.recipient_id = u.user_id 
@@ -57,7 +57,7 @@ $result = $stmt->get_result();
                         <td><?php echo htmlspecialchars($row['donation_id']); ?></td>
                         <td><?php echo htmlspecialchars($row['item_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($row['address']); ?></td>
+                        <td><?php echo htmlspecialchars($row['recipient_address']); ?></td>
                         <td><?php echo htmlspecialchars($row['status']); ?></td>
                         <td>
                             <?php if ($row['status'] == 'delivered'): ?>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #0B3D91;
+            color: white;
+            position: fixed;
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #092C6F;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <a href="recipient_requests.php">Recipient Requests</a>
+        <a href="claim_requests.php">Claim Requests</a>
+        <a href="manage_users.php">Manage Users</a>
+        <a href="View_complaints.php">View Complaints</a>
+        <a href="add_notice.php">Add Notice</a>
+    </div>
+
+    <div class="content">
+        <h1>Welcome Admin</h1>
+        <p>Select an option from the sidebar to manage the system.</p>
+    </div>
+
+</body>
+</html>
