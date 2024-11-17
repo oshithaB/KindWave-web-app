@@ -19,23 +19,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'], $_POST['
             SET rating = (SELECT AVG(rating) FROM ratings WHERE recipient_id = (SELECT recipient_id FROM requests WHERE request_id = ?)) 
             WHERE user_id = (SELECT recipient_id FROM requests WHERE request_id = ?)";
 
+    // Prepare statement
     $stmt = $conn->prepare($sql);
+
+    if ($stmt === false) {
+        // Handle error if the query fails to prepare
+        die('Error in SQL prepare statement: ' . $conn->error);
+    }
+
     $stmt->bind_param("ii", $request_id, $request_id);
-    
+
     if ($stmt->execute()) {
         // Insert the new rating into the ratings table
-        $sql = "INSERT INTO ratings (recipient_id, donor_id, rating) VALUES ((SELECT recipient_id FROM requests WHERE request_id = ?), ?, ?)";
+        $sql = "INSERT INTO ratings (recipient_id, donor_id, rating) 
+                VALUES ((SELECT recipient_id FROM requests WHERE request_id = ?), ?, ?)";
+
         $stmt = $conn->prepare($sql);
+
+        if ($stmt === false) {
+            // Handle error if the query fails to prepare
+            die('Error in SQL prepare statement: ' . $conn->error);
+        }
+
         $stmt->bind_param("iii", $request_id, $donor_id, $rating);
-        $stmt->execute();
         
-        // Redirect back to the requests page
-        header('Location: requests.php?success=Rating submitted successfully');
+        if ($stmt->execute()) {
+            // Redirect back to the requests page with success message
+            header('Location: requests.php?success=Rating submitted successfully');
+        } else {
+            echo "Error submitting rating: " . $stmt->error;
+        }
     } else {
-        echo "Error updating rating: " . $conn->error;
+        echo "Error updating recipient rating: " . $stmt->error;
     }
     
-    $stmt->close();
+    $stmt->close(); // Close the prepared statement
 }
 
 $conn->close(); // Close the database connection
