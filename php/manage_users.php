@@ -58,6 +58,8 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
+    <link rel="stylesheet" href="body.css">
+    <?php include 'admin_navigation.php'; ?>
     <style>
         table, th, td { border: 1px solid black; border-collapse: collapse; }
         th, td { padding: 8px; text-align: left; }

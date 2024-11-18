@@ -11,10 +11,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'donor') {
 // Fetch the logged-in donor's ID
 $donor_id = $_SESSION['user_id'];
 
-// Fetch requests related to the logged-in donor
+// Fetch requests related to the logged-in donor, along with the recipient's rating from the users table
 $sql = "SELECT r.request_id, r.donation_id, r.quantity, 
                u.address AS recipient_address, u.username AS recipient_username, 
-               r.status, d.item_name, COALESCE((SELECT AVG(rating) FROM ratings WHERE recipient_id = u.user_id), 0) AS recipient_rating
+               r.status, d.item_name, ROUND(COALESCE(u.rating, 0), 2) AS recipient_rating
         FROM requests r 
         JOIN donations d ON r.donation_id = d.donation_id 
         JOIN users u ON r.recipient_id = u.user_id 
@@ -39,12 +39,26 @@ if ($result === false || $result->num_rows == 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Requests - Donor Dashboard</title>
     <link rel="stylesheet" href="body.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .rating-container {
+            display: inline-block;
+        }
+        .rating {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .rating.active {
+            color: gold;
+        }
+    </style>
 </head>
 <body>
+
     <?php include 'donor_navigation.php'; ?>
     <div class="container">
         <h1>Your Donation Requests</h1>
-        <table>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Recipient</th>
@@ -67,25 +81,35 @@ if ($result === false || $result->num_rows == 0) {
                         <td><?php echo htmlspecialchars($row['recipient_address']); ?></td>
                         <td><?php echo htmlspecialchars($row['status']); ?></td>
                         <td>
+                            <div class="rating-container">
+                                <!-- Display current recipient rating as yellow stars -->
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="rating <?php echo $i <= round($row['recipient_rating']) ? 'active' : ''; ?>">
+                                        &#9733;
+                                    </span>
+                                <?php endfor; ?>
+                                <p><?php echo round($row['recipient_rating'], 2); ?> / 5</p>
+                            </div>
+
+                            <!-- Allow the donor to rate the recipient only if the status is delivered -->
                             <?php if ($row['status'] == 'delivered'): ?>
                                 <div class="rating-container">
+                                    <p>Rate:</p>
                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                         <span 
-                                            class="rating <?php echo $i <= round($row['recipient_rating']) ? 'active' : ''; ?>" 
+                                            class="rating" 
                                             onclick="rate(<?php echo $i; ?>, <?php echo $row['request_id']; ?>, '<?php echo addslashes($row['recipient_username']); ?>')">
                                             &#9733;
                                         </span>
                                     <?php endfor; ?>
                                 </div>
-                            <?php else: ?>
-                                <?php echo str_repeat('⭐', round($row['recipient_rating'])); ?>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($row['status'] != 'delivered'): ?>
                                 <form method="POST" action="update_status.php">
                                     <input type="hidden" name="request_id" value="<?php echo $row['request_id']; ?>">
-                                    <button type="submit" name="status" value="in_review">In Review</button>
+                                    <button type="submit" name="status" value="in_review" class="btn btn-primary">In Review</button>
                                 </form>
                             <?php else: ?>
                                 <span class="no-action">No Actions</span>

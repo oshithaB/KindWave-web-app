@@ -55,6 +55,8 @@ $result = $conn->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipient Requests</title>
+    <link rel="stylesheet" href="body.css">
+    <?php include 'admin_navigation.php'; ?>
 </head>
 <body>
     <h1>Recipient Requests</h1>

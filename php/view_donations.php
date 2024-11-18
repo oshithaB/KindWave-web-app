@@ -22,9 +22,8 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Donations</title>
-    <style>
-        /* Add your CSS styling here for cards, search bar, and dropdown */
-    </style>
+    <link rel="stylesheet" href="body.css">
+    <?php include 'recipient_navigation.php'; ?>
 </head>
 <body>
     <h1>View Donations</h1>
