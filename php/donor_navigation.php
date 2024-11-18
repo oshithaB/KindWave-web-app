@@ -8,7 +8,7 @@
       <li><a href="live_donations.php">Live Donations</a></li>
       <li><a href="requests.php">Requests</a></li>
       <li><a href="donation_history.php">Donation History</a></li>
-      <li><a href="donor_account.php">My Account</a></li>
+      <li><a href="My_account.php">My Account</a></li>
       <li><a href="logout.php">Logout</a></li>
     </ul>
   </div>

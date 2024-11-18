@@ -6,6 +6,7 @@
         <li> <a href="php/available_deliveries.php">Available Deliveries</a></li>
         <li> <a href="php/accepted_deliveries.php">Accepted Deliveries</a></li>
         <li><a href="php/history.php">History</a></li>
+        <li><a href="My_account.php">My Account</a></li>
         <li><a href="complain.php">Complain</a></li>
     
     </ul>

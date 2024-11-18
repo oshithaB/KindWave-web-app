@@ -3,11 +3,11 @@
   <div class="navbar-container">
     <img src="logo.jpg" alt="Logo" class="logo">
     <ul>
-    <li><a href="recipient_requests.php">Recipient Requests</a></li>
-      <li><a href="claim_requests.php">Claim Requests</a></li>  
-       <li><a href="manage_users.php">Manage Users</a></li> 
-        <li><a href="View_complaints.php">View Complaints</a></li>
-        <li><a href="add_notice.php">Add Notice</a></li>
+    <li><a href="view_donations.php">View Donations</a></li>
+        <li> <a href="myClaim_requests.php">View My Claims</a></li>
+        <li><a href="My_account.php">My Account</a></li>
+        <li> <a href="complain.php">Complain</a></li>
+        <li> <a href="view_notice.php">View Notices</a></li>
     </ul>
   </div>
 </nav>
