@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Update requests table
     $address = ""; // Address will be prompted via a popup or form
-    $sql = "INSERT INTO requests (donation_id, recipient_id, quantity, address) 
-            VALUES ($donation_id, $recipient_id, $quantity, '$address')";
+    $sql = "INSERT INTO requests (donation_id, recipient_id, quantity) 
+            VALUES ($donation_id, $recipient_id, $quantity)";
     if ($conn->query($sql)) {
         echo "<script>alert('Donation claimed successfully! Provide location details.');</script>";
     } else {

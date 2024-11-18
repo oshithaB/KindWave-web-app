@@ -2,59 +2,59 @@
 session_start();
 include 'db.php'; // Include the database connection
 
-// Check if the user is logged in and has the 'donor' role
+// Ensure the user is authenticated and authorized as a donor
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'donor') {
-    header('Location: index.html'); // Redirect to login if not authenticated
+    header('Location: index.html');
     exit;
 }
 
-// Check if the rating is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'], $_POST['rating'])) {
-    $request_id = $_POST['request_id'];
-    $rating = $_POST['rating'];
-    $donor_id = $_SESSION['user_id']; // Get the logged-in donor's ID
+// Get POST data
+$request_id = intval($_POST['request_id']);
+$rating = intval($_POST['rating']);
 
-    // Update the recipient's rating based on the request
-    $sql = "UPDATE users 
-            SET rating = (SELECT AVG(rating) FROM ratings WHERE recipient_id = (SELECT recipient_id FROM requests WHERE request_id = ?)) 
-            WHERE user_id = (SELECT recipient_id FROM requests WHERE request_id = ?)";
-
-    // Prepare statement
-    $stmt = $conn->prepare($sql);
-
-    if ($stmt === false) {
-        // Handle error if the query fails to prepare
-        die('Error in SQL prepare statement: ' . $conn->error);
-    }
-
-    $stmt->bind_param("ii", $request_id, $request_id);
-
-    if ($stmt->execute()) {
-        // Insert the new rating into the ratings table
-        $sql = "INSERT INTO ratings (recipient_id, donor_id, rating) 
-                VALUES ((SELECT recipient_id FROM requests WHERE request_id = ?), ?, ?)";
-
-        $stmt = $conn->prepare($sql);
-
-        if ($stmt === false) {
-            // Handle error if the query fails to prepare
-            die('Error in SQL prepare statement: ' . $conn->error);
-        }
-
-        $stmt->bind_param("iii", $request_id, $donor_id, $rating);
-        
-        if ($stmt->execute()) {
-            // Redirect back to the requests page with success message
-            header('Location: requests.php?success=Rating submitted successfully');
-        } else {
-            echo "Error submitting rating: " . $stmt->error;
-        }
-    } else {
-        echo "Error updating recipient rating: " . $stmt->error;
-    }
-    
-    $stmt->close(); // Close the prepared statement
+if ($rating < 1 || $rating > 5) {
+    die('Invalid rating value.');
 }
 
-$conn->close(); // Close the database connection
+// Retrieve recipient details from the request
+$sql = "SELECT recipient_id FROM requests WHERE request_id = ?";
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die('Error preparing query: ' . $conn->error);
+}
+
+$stmt->bind_param('i', $request_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if (!$row) {
+    die('Request not found.');
+}
+
+$recipient_id = $row['recipient_id'];
+
+// Update the recipient's rating and request count
+$sql = "UPDATE users 
+        SET rating = ((rating * num_ratings) + ?) / (num_ratings + 1), 
+            num_ratings = num_ratings + 1 
+        WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die('Error preparing query: ' . $conn->error);
+}
+
+$stmt->bind_param('di', $rating, $recipient_id);
+$stmt->execute();
+
+if ($stmt->affected_rows > 0) {
+    echo json_encode(['success' => true]);
+} else {
+    echo json_encode(['success' => false, 'message' => 'Unable to update recipient rating.']);
+}
+
+$stmt->close();
+$conn->close();
 ?>

@@ -24,6 +24,12 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $donor_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
+// Check if the query was successful and there are results
+if ($result === false || $result->num_rows == 0) {
+    echo "No donation requests found or there was an error with the query.";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,59 +38,10 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Requests - Donor Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .rating {
-            cursor: pointer;
-            color: #ddd;
-        }
-        .rating.active {
-            color: gold;
-        }
-        .no-action {
-            color: gray;
-            cursor: not-allowed;
-        }
-    </style>
+    <link rel="stylesheet" href="body.css">
 </head>
 <body>
+    <?php include 'donor_navigation.php'; ?>
     <div class="container">
         <h1>Your Donation Requests</h1>
         <table>
@@ -115,7 +72,7 @@ $result = $stmt->get_result();
                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                         <span 
                                             class="rating <?php echo $i <= round($row['recipient_rating']) ? 'active' : ''; ?>" 
-                                            onclick="rate(<?php echo $i; ?>, <?php echo $row['request_id']; ?>)">
+                                            onclick="rate(<?php echo $i; ?>, <?php echo $row['request_id']; ?>, '<?php echo addslashes($row['recipient_username']); ?>')">
                                             &#9733;
                                         </span>
                                     <?php endfor; ?>
@@ -141,7 +98,7 @@ $result = $stmt->get_result();
     </div>
 
     <script>
-        function rate(stars, requestId) {
+        function rate(stars, requestId, recipientUsername) {
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = 'rate_recipient.php';
@@ -156,8 +113,14 @@ $result = $stmt->get_result();
             ratingInput.name = 'rating';
             ratingInput.value = stars;
 
+            const recipientInput = document.createElement('input');
+            recipientInput.type = 'hidden';
+            recipientInput.name = 'recipient_username';
+            recipientInput.value = recipientUsername;
+
             form.appendChild(requestInput);
             form.appendChild(ratingInput);
+            form.appendChild(recipientInput);
             document.body.appendChild(form);
             form.submit();
         }

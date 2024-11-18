@@ -19,17 +19,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id']) && isset
         exit;
     }
 
-    // Update status
-    $sql = "UPDATE requests SET status = ? WHERE request_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('si', $status, $request_id);
+    // Only allow updating to 'up_for_delivery'
+    if ($status === 'up_for_delivery') {
+        // Save current details into deliveries table
+        $delivery_sql = "
+            INSERT INTO deliveries (request_id, delivery_man_id, status)
+            VALUES (?, ?, ?)";
+        $delivery_stmt = $conn->prepare($delivery_sql);
+        $delivery_man_id = $_SESSION['user_id']; // Assume delivery person ID is in session
+        $delivery_status = 'up_for_delivery';
+        $delivery_stmt->bind_param('iis', $request_id, $delivery_man_id, $delivery_status);
 
-    if ($stmt->execute()) {
-        echo 'success';
-    } else {
-        echo 'error';
+        if (!$delivery_stmt->execute()) {
+            echo 'error';
+            exit;
+        }
+
+        // Update the request status
+        $update_sql = "UPDATE requests SET status = ? WHERE request_id = ?";
+        $update_stmt = $conn->prepare($update_sql);
+        $update_stmt->bind_param('si', $status, $request_id);
+
+        if ($update_stmt->execute()) {
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+        exit;
     }
-    exit;
 }
 
 // Fetch requests with status 'accepted'
@@ -128,7 +145,6 @@ $result = $conn->query($sql);
                         <span>Delivered</span>
                     <?php else: ?>
                         <button onclick="changeStatus(<?php echo $row['request_id']; ?>, 'up_for_delivery')">Up for Delivery</button>
-                        <button onclick="changeStatus(<?php echo $row['request_id']; ?>, 'delivered')">Delivered</button>
                     <?php endif; ?>
                 </td>
             </tr>

@@ -23,35 +23,11 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donation History</title>
-    <link rel="stylesheet" href="css/style.css"> <!-- Link your CSS file -->
-    <style>
-        body {
-            background-color: #001f3f; /* Dark blue background */
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #003366; /* Darker blue for the table */
-        }
-        th, td {
-            border: 1px solid #fff;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #00509e; /* Lighter blue for header */
-        }
-        tr:nth-child(even) {
-            background-color: #004080; /* Alternating row colors */
-        }
-        a {
-            color: #ffffff;
-        }
-    </style>
+    <link rel="stylesheet" href="body.css">
+    
+    </head>
+    <body>
+    <?php include 'donor_navigation.php'; ?>
 </head>
 <body>
     <h1>Donation History</h1>
