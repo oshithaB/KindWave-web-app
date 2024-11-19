@@ -19,7 +19,7 @@
   nav {
     background: rgba(0, 0, 0, 0.8); /* Black background with transparency */
     backdrop-filter: blur(12px); /* Glass effect */
-    padding: 25px 50px; /* Wide navbar padding */
+    padding: 15px 50px; /* Wide navbar padding */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     display: flex;

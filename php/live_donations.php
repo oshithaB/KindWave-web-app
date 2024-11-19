@@ -31,7 +31,7 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="body.css">
     
     
-    <?php include 'donor_navigation.php'; ?><!-- Link your CSS file -->
+    <?php include 'donor_navigation.php'; ?>
     <style>
         body {
             background-color: #f2f2f2;
