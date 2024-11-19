@@ -8,7 +8,7 @@
       <li><a href="live_donations.php">Live Donations</a></li>
       <li><a href="requests.php">Requests</a></li>
       <li><a href="donation_history.php">Donation History</a></li>
-      <li><a href="donor_account.php">My Account</a></li>
+      <li><a href="My_account.php">My Account</a></li>
       <li><a href="logout.php">Logout</a></li>
     </ul>
   </div>
@@ -19,7 +19,7 @@
   nav {
     background: rgba(0, 0, 0, 0.8); /* Black background with transparency */
     backdrop-filter: blur(12px); /* Glass effect */
-    padding: 25px 50px; /* Wide navbar padding */
+    padding: 15px 50px; /* Wide navbar padding */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     display: flex;

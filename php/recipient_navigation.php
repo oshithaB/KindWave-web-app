@@ -3,11 +3,11 @@
   <div class="navbar-container">
     <img src="logo.jpg" alt="Logo" class="logo">
     <ul>
-    <li><a href="recipient_requests.php">Recipient Requests</a></li>
-      <li><a href="claim_requests.php">Claim Requests</a></li>  
-       <li><a href="manage_users.php">Manage Users</a></li> 
-        <li><a href="View_complaints.php">View Complaints</a></li>
-        <li><a href="add_notice.php">Add Notice</a></li>
+    <li><a href="view_donations.php">View Donations</a></li>
+        <li> <a href="myClaim_requests.php">View My Claims</a></li>
+        <li><a href="My_account.php">My Account</a></li>
+        <li> <a href="complain.php">Complain</a></li>
+        <li> <a href="view_notice.php">View Notices</a></li>
     </ul>
   </div>
 </nav>
@@ -17,7 +17,7 @@
   nav {
     background: rgba(0, 0, 0, 0.8); /* Black background with transparency */
     backdrop-filter: blur(12px); /* Glass effect */
-    padding: 25px 50px; /* Wide navbar padding */
+    padding: 15px 50px; /* Wide navbar padding */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     display: flex;

@@ -3,9 +3,10 @@
   <div class="navbar-container">
     <img src="logo.jpg" alt="Logo" class="logo">
     <ul>
-        <li> <a href="php/available_deliveries.php">Available Deliveries</a></li>
-        <li> <a href="php/accepted_deliveries.php">Accepted Deliveries</a></li>
+        <li> <a href="available_deliveries.php">Available Deliveries</a></li>
+        <li> <a href="accepted_deliveries.php">Accepted Deliveries</a></li>
         <li><a href="php/history.php">History</a></li>
+        <li><a href="My_account.php">My Account</a></li>
         <li><a href="complain.php">Complain</a></li>
     
     </ul>
@@ -17,7 +18,7 @@
   nav {
     background: rgba(0, 0, 0, 0.8); /* Black background with transparency */
     backdrop-filter: blur(12px); /* Glass effect */
-    padding: 25px 50px; /* Wide navbar padding */
+    padding: 15px 50px; /* Wide navbar padding */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     display: flex;
