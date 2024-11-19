@@ -79,24 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Donation</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; background-color: #f4f4f4; }
-        h2 { color: #333; }
-        form { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        input[type="text"], input[type="number"], input[type="file"], select {
-            width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;
-        }
-        input[type="submit"] {
-            background-color: #5cb85c; color: white; border: none; padding: 10px; cursor: pointer;
-        }
-        input[type="submit"]:hover { background-color: #4cae4c; }
-        .error { color: red; }
-        .success { color: green; }
-    </style>
+    <link rel="stylesheet" href="body.css">
+    
 </head>
 <body>
+<?php include 'donor_navigation.php'; ?>
     <h2>Add Donation</h2>
-
+   
     <?php if (!empty($error)): ?>
         <div class="error"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>

@@ -40,9 +40,12 @@ $donation = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Donation</title>
-    <link rel="stylesheet" href="css/style.css"> <!-- Link your CSS file -->
+    <link rel="stylesheet" href="body.css">
+    
 </head>
 <body>
+<?php include 'donor_navigation.php'; ?>
+
 
 <h2>Edit Donation</h2>
 
